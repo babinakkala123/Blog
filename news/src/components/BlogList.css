@@ -1,0 +1,25 @@
+.blog-list {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .create-link {
+    display: block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+  }
+  
+  .blog-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .blog-item h2 {
+    margin: 0;
+}
