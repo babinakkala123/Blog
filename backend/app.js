@@ -50,6 +50,9 @@ app.post('/api/blogs', async (req, res) => {
 });
 
 
+
+
+
 app.get('/api/blogs', async (req, res) => {
   try {
     const blogs = await Blog.find();
@@ -68,4 +71,3 @@ app.get('/api/blogs/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
