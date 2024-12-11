@@ -104,6 +104,26 @@ app.delete('/api/blogs/:id', async (req, res) => {
 });
 
 
+app.post('/api/blogs/:id/comments', async (req, res) => {
+  const { content, author } = req.body;
+
+  if (!content || !author) {
+    return res.status(400).json({ message: 'Content and author are required.' });
+  }
+
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+
+    blog.comments.push({ content, author });
+    const updatedBlog = await blog.save();
+    res.json(updatedBlog);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
