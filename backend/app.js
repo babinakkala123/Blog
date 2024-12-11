@@ -71,5 +71,39 @@ app.get('/api/blogs/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
- 
+
+
+app.put('/api/blogs/:id', async (req, res) => {
+  const { title, content, author } = req.body;
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      req.params.id,
+      { title, content, author },
+      { new: true }
+    );
+
+    if (!updatedBlog) return res.status(404).json({ message: 'Blog not found' });
+
+
+    res.json(updatedBlog);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.delete('/api/blogs/:id', async (req, res) => {
+  try {
+    const blog = await 
+    Blog.findByIdAndDelete(req.params.id);
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    res.json({ message: 'Blog post deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
