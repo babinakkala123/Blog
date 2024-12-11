@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
-import './Blogpost.css';
+import './BlogPost.css';
 
 const BlogPost = () => {
   const { id } = useParams();
