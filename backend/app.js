@@ -31,35 +31,39 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema);
 
 
-app.put('/api/blogs/:id', async (req, res) => {
+
+app.post('/api/blogs', async (req, res) => {
   const { title, content, author } = req.body;
-  try {
-    const updatedBlog = await Blog.findByIdAndUpdate(
-      req.params.id,
-      { title, content, author },
-      { new: true }
-    );
 
-    if (!updatedBlog) return res.status(404).json({ message: 'Blog not found' });
-    res.json(updatedBlog);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  if (!title || !content || !author) {
+    return res.status(400).json({ message: 'Title, content, and author are required.' });
   }
-});
 
+  const blog = new Blog({ title, content, author });
 
-app.delete('/api/blogs/:id', async (req, res) => {
   try {
-    const blog = await Blog.findByIdAndDelete(req.params.id);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    const newBlog = await blog.save();
+    res.status(201).json(newBlog);
 
 
-    res.json({ message: 'Blog post deleted successfully' });
+
+
+
+app.get('/api/blogs', async (req, res) => {
+  try {
+    const blogs = await Blog.find();
+    res.json(blogs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+app.get('/api/blogs/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    res.json(blog);
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(Server running on port ${PORT}));
+
+
+
